@@ -20,8 +20,8 @@
   };
   const DEFAULT_TEXT = { speech: 'Hello!', rounded: 'Hi there!', thought: 'Hmm...', shout: 'AAARGH!', whisper: 'psst...', caption: 'Meanwhile...', text: 'Text', sfx: 'BOOM!' };
   const SFX_PRESETS = ['BOOM!', 'POW!', 'ZOOOM', 'WHOOSH', 'CRASH!', 'SPLASH!', 'GRR!', 'ROAR!', 'AAARGH!', 'HELLO', '!?', 'ZZZ...'];
-  const STORE_KEY = 'stickstudio.doc.v1';
-  const INDEX_KEY = 'stickstudio.projects.v1', PROJ_PREFIX = 'stickstudio.proj.', PRESET_KEY = 'stickstudio.mychars.v1', HELP_KEY = 'stickstudio.helpSeen';
+  const STORE_KEY = 'stickstudio2.doc.v1';
+  const INDEX_KEY = 'stickstudio2.projects.v1', PROJ_PREFIX = 'stickstudio2.proj.', PRESET_KEY = 'stickstudio2.mychars.v1', HELP_KEY = 'stickstudio2.helpSeen';
   // layout presets: cols per row, optional row heights and per-row panel width ratios
   const LAYOUTS = [
     { name: 'Single panel', cols: [1] },
@@ -50,7 +50,7 @@
   const newDoc = () => ({ id: uid(), title: 'My cartoon', format: 'a4p', mono: false, pages: [newPage()] });
 
   let doc = null;
-  const state = { page: 0, sel: null, selPanel: null, zoom: 1, tab: 'characters', libChar: 'boy', libExpr: 'happy', dragId: null, clipboard: null, guides: [], closed: {} };
+  const state = { page: 0, sel: null, selPanel: null, zoom: 1, tab: 'characters', libChar: 'maya', libExpr: 'happy', dragId: null, clipboard: null, guides: [], closed: {} };
 
   const fmt = (pg = page()) => FORMATS[(pg && pg.format) || doc.format] || FORMATS.a4p;
   const page = () => doc.pages[state.page];
@@ -299,9 +299,10 @@
       if (p.format && !FORMATS[p.format]) delete p.format;
       p.panels = p.panels && typeof p.panels === 'object' ? p.panels : {};
       p.items = (Array.isArray(p.items) ? p.items : []).filter(it => it && typeof it === 'object' && (
-        (it.type === 'figure' && FIG.CHARACTERS[it.char]) || (it.type === 'object' && OBJ.OBJECTS[it.obj]) || (it.type === 'balloon' && BAL.STYLES[it.style])));
+        it.type === 'figure' || (it.type === 'object' && OBJ.OBJECTS[it.obj]) || (it.type === 'balloon' && BAL.STYLES[it.style])));
       p.items.forEach(it => {
         it.id = it.id || uid();
+        if (it.type === 'figure' && !FIG.CHARACTERS[it.char]) it.char = 'maya';
         if (it.type === 'figure' && !FIG.POSES[it.pose]) it.pose = 'stand';
         if (it.type === 'figure' && !FIG.EXPRESSIONS[it.expr]) it.expr = 'happy';
         ['x', 'y', 'w', 'h'].forEach(k => { if (!isFinite(+it[k])) it[k] = k === 'w' || k === 'h' ? 80 : 50; else it[k] = +it[k]; });
@@ -1081,10 +1082,9 @@
 
   function faceThumb(it, expr) {
     // draw a plain (hat-less) head and crop the view around it
-    const char = FIG.CHARACTERS[it.char].prop === 'kid' ? 'boy' : 'man';
-    const [hx, hy, r] = FIG.headAt(char, 'stand');
-    const full = FIG.draw({ char: char === 'man' ? 'doctor' : 'baby', pose: 'stand', expr, lw: 4 });
-    const [hx2, hy2, r2] = FIG.headAt(char === 'man' ? 'doctor' : 'baby', 'stand');
+    const char = (FIG.CHARACTERS[it.char] && FIG.CHARACTERS[it.char].prop === 'kid') ? 'zoe' : 'maya';
+    const full = FIG.draw({ char, pose: 'stand', expr, lw: 4 });
+    const [hx2, hy2, r2] = FIG.headAt(char, 'stand');
     const m = r2 * 1.5;
     return `<svg viewBox="${hx2 - m} ${hy2 - m} ${2 * m} ${2 * m}">${full}</svg>`;
   }
@@ -1638,9 +1638,9 @@
   // ------------------------------------------------------------------ demo cartoon
   function demoDoc() {
     doc = newDoc();
-    doc.title = 'Just One Drop';
+    doc.title = 'The Portal Glitch';
     const pg = page();
-    pg.layout.title = 'Just One Drop';
+    pg.layout.title = 'The Portal Glitch';
     const PM = computePanels(pg);
     const put = (key, spec, fx, fy, extra = {}) => {
       const P = PM.map[key];
@@ -1652,47 +1652,45 @@
       if (extra.gy) it.y = extra.gy * P.h - (it.type === 'figure' ? (FIG.GROUND - FIG.NH / 2) * it.h / FIG.NH : it.h / 2);
       pg.items.push(it); return it;
     };
-    // the scenes' ground sits at 250/300 of their height (bottom-anchored, so the same in any panel)
     const GY = 0.84;
-    ['0-0', '0-1', '1-0', '1-1'].forEach(k => { pg.panels[k] = { scene: 'throneroom', sceneOpacity: 0.55 }; });
-    const aim = (b, fig, dx = 0) => { // point a balloon's tail at a figure's head
+    ['0-0', '0-1', '1-0'].forEach(k => { pg.panels[k] = { scene: 'lab', sceneOpacity: 0.72 }; });
+    pg.panels['1-1'] = { scene: 'citynight', sceneOpacity: 0.85 };
+    const aim = (b, fig, dx = 0) => {
       const [hx, hy] = FIG.headAt(fig.char, fig.pose);
       const sx = fig.w / FIG.NW, sy = fig.h / FIG.NH;
       const tx = fig.x + (fig.flipX ? -1 : 1) * (hx - FIG.NW / 2) * sx + dx, ty = fig.y + (hy - FIG.NH / 2) * sy - 26 * sy;
       b.tx = tx - b.x; b.ty = ty - b.y;
     };
-    // panel 1 – the problem
-    const king1 = put('0-0', { kind: 'figure', char: 'king', pose: 'sad', expr: 'sad' }, 0.28, 0, { gy: GY });
-    const wiz1 = put('0-0', { kind: 'figure', char: 'wizard', pose: 'point', expr: 'grin' }, 0.76, 0, { gy: GY, flipX: true });
-    put('0-0', { kind: 'object', obj: 'potion' }, 0.6, 0, { gy: GY, k: 0.8 });
-    const b1 = put('0-0', { kind: 'balloon', style: 'speech' }, 0.3, 0.14, { text: 'I feel so *old*...' });
-    aim(b1, king1);
-    const b1b = put('0-0', { kind: 'balloon', style: 'speech' }, 0.7, 0.3, { text: 'Youth potion, Sire! Just *one drop*.' });
-    aim(b1b, wiz1);
-    // panel 2 – the king does not do drops
-    put('0-1', { kind: 'figure', char: 'king', pose: 'cheer', expr: 'laugh' }, 0.3, 0, { gy: GY, handR: 'cup', handL: 'none' });
-    put('0-1', { kind: 'figure', char: 'wizard', pose: 'shock', expr: 'scared' }, 0.78, 0, { gy: GY, flipX: true, fx: ['sweat'] });
-    put('0-1', { kind: 'balloon', style: 'sfx', text: 'GLUG GLUG GLUG' }, 0.5, 0.15, { rot: -6 });
-    // panel 3 – poof
-    put('1-0', { kind: 'object', obj: 'puff' }, 0.32, 0, { gy: GY + 0.02, k: 2.6 });
-    put('1-0', { kind: 'object', obj: 'sparkles' }, 0.22, 0.38, { k: 1.1 });
-    put('1-0', { kind: 'object', obj: 'sparkles' }, 0.58, 0.3, { k: 0.8 });
-    put('1-0', { kind: 'figure', char: 'wizard', pose: 'panic', expr: 'scared' }, 0.7, 0, { gy: GY, flipX: true, fx: ['sweat', 'shock'] });
-    put('1-0', { kind: 'balloon', style: 'sfx', text: 'POOF!' }, 0.4, 0.15, { rot: 8 });
-    // panel 4 – a very young king on the throne
-    const P4 = PM.map['1-1'];
-    const throne = put('1-1', { kind: 'object', obj: 'throne' }, 0.46, 0, { gy: GY, k: 1.3 });
-    const baby = put('1-1', { kind: 'figure', char: 'baby', pose: 'sit', expr: 'angry' }, 0.46, 0, { handR: 'scepter', handL: 'none', fx: ['anger'] });
-    const ts = throne.w / OBJ.OBJECTS.throne.w, fs = baby.w / FIG.NW;
-    const seat = [throne.x - throne.w / 2 + 40 * ts, throne.y - throne.h / 2 + 118 * ts];
-    const [hx, hy] = FIG.hipAt('baby', 'sit');
-    baby.x = seat[0] - (hx - FIG.NW / 2) * fs; baby.y = seat[1] - (hy - FIG.NH / 2) * fs - 2;
-    const wiz4 = put('1-1', { kind: 'figure', char: 'wizard', pose: 'shrug', expr: 'grin' }, 0.8, 0, { gy: GY, flipX: true, fx: ['sweat'] });
-    const b4a = put('1-1', { kind: 'balloon', style: 'shout' }, 0.26, 0.14, { text: 'FIX. THIS.' });
-    aim(b4a, baby);
-    const b4b = put('1-1', { kind: 'balloon', style: 'speech' }, 0.7, 0.3, { text: 'Well... technically, you *are* young again.' });
-    aim(b4b, wiz4);
-    void P4;
+    // panel 1 – calibrating the portal
+    const cyber1 = put('0-0', { kind: 'figure', char: 'cyber', pose: 'point', expr: 'smirk' }, 0.28, 0, { gy: GY });
+    const prof1 = put('0-0', { kind: 'figure', char: 'prof', pose: 'think', expr: 'neutral' }, 0.76, 0, { gy: GY, flipX: true, handR: 'none' });
+    put('0-0', { kind: 'object', obj: 'portal' }, 0.52, 0, { gy: GY, k: 0.85 });
+    const b1 = put('0-0', { kind: 'balloon', style: 'speech' }, 0.28, 0.14, { text: 'Power at *100%*. Opening rift!' });
+    aim(b1, cyber1);
+    const b1b = put('0-0', { kind: 'balloon', style: 'speech' }, 0.74, 0.28, { text: 'Wait—did you carry the *two*?' });
+    aim(b1b, prof1);
+    // panel 2 – boom!
+    put('0-1', { kind: 'object', obj: 'boom' }, 0.5, 0.52, { k: 1.5 });
+    put('0-1', { kind: 'figure', char: 'cyber', pose: 'shock', expr: 'scared' }, 0.22, 0, { gy: GY, fx: ['shock'] });
+    put('0-1', { kind: 'figure', char: 'prof', pose: 'fall', expr: 'dizzy' }, 0.78, 0, { gy: GY, flipX: true, handR: 'none', fx: ['dizzy'] });
+    put('0-1', { kind: 'balloon', style: 'sfx', text: 'KRAAK-BOOM!' }, 0.5, 0.16, { rot: -6 });
+    // panel 3 – unexpected guest
+    put('1-0', { kind: 'object', obj: 'portal' }, 0.34, 0, { gy: GY, k: 0.9 });
+    put('1-0', { kind: 'object', obj: 'sparkles' }, 0.34, 0.42, { k: 1.2 });
+    const mage3 = put('1-0', { kind: 'figure', char: 'archmage', pose: 'victory', expr: 'laugh' }, 0.36, 0, { gy: GY });
+    const cyber3 = put('1-0', { kind: 'figure', char: 'cyber', pose: 'scratch', expr: 'surprised' }, 0.78, 0, { gy: GY, flipX: true, fx: ['question'] });
+    const b3 = put('1-0', { kind: 'balloon', style: 'shout' }, 0.32, 0.14, { text: 'Huzzah! The tavern!' });
+    aim(b3, mage3);
+    const b3b = put('1-0', { kind: 'balloon', style: 'speech' }, 0.76, 0.28, { text: 'Uh... wrong century.' });
+    aim(b3b, cyber3);
+    // panel 4 – night city adventure
+    put('1-1', { kind: 'object', obj: 'hoverbike' }, 0.36, 0, { gy: GY, k: 0.9 });
+    const ranger4 = put('1-1', { kind: 'figure', char: 'ranger', pose: 'wave', expr: 'grin' }, 0.72, 0, { gy: GY, flipX: true });
+    const mage4 = put('1-1', { kind: 'figure', char: 'archmage', pose: 'cheer', expr: 'love' }, 0.24, 0, { gy: GY, fx: ['sparkle'] });
+    const b4a = put('1-1', { kind: 'balloon', style: 'speech' }, 0.28, 0.16, { text: 'What *magic* is this?!' });
+    aim(b4a, mage4);
+    const b4b = put('1-1', { kind: 'balloon', style: 'speech' }, 0.72, 0.26, { text: 'Welcome to *Neo-City*, pal!' });
+    aim(b4b, ranger4);
     return doc;
   }
 
