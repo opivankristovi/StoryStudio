@@ -1,6 +1,8 @@
-# StickStudio – stick-figure cartoon maker
+# StickStudio 2 – Modern Comic & Cartoon Maker
 
-**▶ Try it online: https://opivankristovi.github.io/StickStudio/**
+**▶ Try it online: https://opivankristovi.github.io/StickStudio2/**
+
+A modernized fork of [StickStudio](https://github.com/opivankristovi/StickStudio) featuring a fluid, layered glassmorphic studio UI and a completely rebuilt library of detailed characters, objects, animals, and scenes — while keeping all 42 classic character poses.
 
 Open **`index.html`** in Chrome, Edge or Firefox. Nothing to install and no internet needed.
 `index.html` is a single self-contained file (all styles and code inlined), so you can copy it anywhere.
@@ -12,18 +14,25 @@ The source lives in `src/index.template.html`, `css/` and `js/`. After changing 
 
 (Optional: `powershell -ExecutionPolicy Bypass -File serve.ps1` serves it at http://localhost:8765.)
 
-## What you can do
-- **Layout**: pick from 16 quick layouts (classic page, splash, staggered, 4-koma, …), or set the number of rows, the panels per row and each row's height. Click a panel to change its **width**, **split** it or **merge** it with its neighbour. You can also set margins, gutter, border width and colour, rounded corners and a page title. Each page can use the cartoon's format or its own (e.g. a wide strip page inside an A4 book). "Use this layout on all pages" copies a layout to every page.
-- **Pages**: add, duplicate, delete, and drag the **page thumbnails** at the bottom to reorder them (PgUp/PgDn to switch pages).
-- **Characters**: Boy, Girl, Man, Woman, Cop, King, Queen, Knight, Wizard, Chef, Doctor, Pirate, Baby, Robot, Ninja, Superhero, Astronaut, Alien, Cowboy, Detective, Witch, Ghost, Angel, Devil, Artist, Graduate, Athlete and Magician. Each has 42 poses (walk, run, panic, jump, wave, point, think, confused, shocked, angry, fight, kick, sit, kneel, bow, fly, victory, flex, facepalm, dab, salute, meditate, sleep, …), 17 facial expressions, 12 effects (speed lines, sweat, anger mark, !?, hearts, Zzz, idea bulb, …) and 26 things to hold in either hand.
-- **Objects**: about 100 props in 8 groups (furniture, outdoors, sky, vehicles, fantasy including a dragon and horse, animals, things, effects).
-- **Scenes**: 31 panel backgrounds (park, city, suburb, living room, kitchen, classroom, office, bedroom, café, theater stage, gym, library, hospital, farm, snowy day, playground, science lab, rooftop, castle, throne room, forest, beach, night, mountains, desert, road, space, dungeon, underwater, …). Per panel you can zoom, shift, mirror or fade the scene and set a background colour.
-- **Balloons**: speech, boxed speech, thought, shout, whisper, caption, plain text and sound effects. Drag the orange dot to aim the tail. Double-click a balloon to type straight onto the canvas. `*bold*` and `_italic_` work in the text, and you can change font, size, alignment, capitals and colours. Balloons can resize themselves to fit the text.
-- **Toolbar**: select something and the toolbar under the title bar shows the tools for it, as icon buttons with tooltips. For a character it starts with **Pose** and **Face** buttons that open a compact picker (keys P and F; arrow keys and Enter to choose, Esc to close). Then: duplicate, delete, flip, rotate in 15° steps, resize, **align in the panel** (left, centre, right, top, middle, bottom; figures stand on the panel edge with their feet), layer order and lock. For balloons it also has font, size, bold, italic, capitals and text alignment. With a panel selected it has split, merge, even widths, copy to next panel, scene on all panels and empty panel. On smaller screens the toolbar shows icons only and moves the less-used groups (layer order, align, and so on) into a **⋯ More** menu at its end. On narrow screens and phones the title bar stays one row: New, Projects, Open, Save, Print, Images and Help move into its own **⋯** menu, and Export shows just its icon. On phones the library opens as a sheet from the round **+** button on the page; tap a panel first, then tap what you want to add. Colours, held items, effects and the other settings are in the panel on the right, in sections you can fold away.
-- **Editing**: drag and drop from the library, move items between panels (they snap to panel centres and other items; hold Ctrl to stop snapping), resize from the corners (Shift = free ratio), rotate from the round handle, flip, change layers, adjust opacity, black & white, clip to the panel, lock, duplicate, copy/paste, and undo/redo. **Copy to next panel** repeats a panel's scene and cast for the next moment.
-- **My characters**: style a character (clothes, hair, held items) and click *★ Save as "My character"* to reuse it from the library.
-- **Export**: one Export dialog for **PDF** (image-based, 150/220/300 dpi, optional crop marks), **vector PDF** (via the print dialog → "Save as PDF", with selectable text), **PNG** per page, **all pages as a .zip**, or **one long strip image** for web/social media. Choose all pages, the current page or a range such as `1-3, 5`, set the file name, and optionally export in black & white. There's also a **Print** button.
-- **Projects**: work saves automatically, and **Projects** lists every cartoon in this browser (open, copy, delete). **Save**/**Open** (or drag a `.json` onto the window) stores and loads a project file. The orange ● means there are changes that aren't saved to a file yet. Opening damaged or older files repairs them where possible.
+## What's new in StickStudio 2
+- **Modern Fluid Studio UI**: Layered dark surfaces with frosted glass (`backdrop-filter`), tactile 3D controls, floating inspector cards, springy library thumbnails, and a radial-lit dot-grid stage with deep paper shadows.
+- **24 Detailed Characters**: Volumetric limbs, layered outfits, boots, gloves, multi-layered hair, and expressive faces with pupils and catchlights — *Maya, Leo, Zoe, Sam, Executive, Professor, Cyberpunk, Space Ranger, Android, Secret Agent, Shinobi, Paladin, Archmage, Rogue, Valkyrie, Barista, Field Medic, Master Chef, Rockstar, Explorer, Detective, Monarch, Corsair,* and *Celestial*.
+- **Same 42 Poses**: Walk, run, panic, jump, cheer, wave, point, think, confused, shocked, shrug, angry, fight, punch, kick, sit, kneel, bow, fly, victory, flex, facepalm, dab, salute, clap, meditate, crouch, reach, star jump, sleep, and more — plus 17 facial expressions, 12 effects, and 26 held items.
+- **70 Detailed Objects**:
+  - **Furniture**: Armchair, Barstool, Dining Table, Workstation, Sectional Sofa, Modern Bed, Bookcase, OLED TV, Arc Lamp, Arched Door, Bay Window, Framed Art, Wall Clock, Monstera, Royal Throne.
+  - **Tech & Sci-Fi**: Holo Terminal, Server Rack, Arcade, Cryo Pod, Hover Drone, Sci-Fi Crate, Portal Gate.
+  - **Outdoors**: Oak Tree, Pine Tree, Flowering Bush, Mossy Rocks, Cottage, Skyscraper, Castle Keep, Streetlight, Park Bench, Signpost, Camping Tent, Campfire.
+  - **Vehicles**: Sports Coupe, Patrol Cruiser, Motorcycle, Hoverbike, Rocket Ship, Sailboat.
+  - **Animals (21)**: Cat, Dog, Rabbit, Fox, Bear, Lion, Elephant, Monkey, Frog, Duck, Owl, Pig, Cow, Penguin, Bluebird, Clownfish, Snake, Butterfly, Spider, Horse, Dragon.
+  - **Props & FX**: Treasure Chest, Potion Flask, Electric Guitar, Trophy, Pizza Box, Explosion, Smoke Cloud, Magic Circle, Sparkles.
+- **25 Layered Scenes**: Blank, Horizon Line, Neon City, Sunny Park, Suburban Street, Modern Loft, Cozy Café, Tech Office, High-Tech Lab, Classroom, Grand Library, Cozy Bedroom, Modern Kitchen, City Rooftop, Enchanted Forest, Alpine Peaks, Tropical Sunset, Canyon Desert, Deep Space, Starship Bridge, Castle Courtyard, Royal Hall, Torchlit Dungeon, Concert Stage, and Snowy Village.
+
+## Core Features
+- **Layout**: 16 quick layouts (classic page, splash, staggered, 4-koma, …), custom rows/columns/heights, panel splitting & merging, margins, gutter, border styling, rounded corners, and per-page formats.
+- **Pages**: Add, duplicate, delete, and drag page thumbnails to reorder (`PgUp`/`PgDn` to switch).
+- **Balloons**: Speech, boxed speech, thought, shout, whisper, caption, plain text, and sound effects with draggable tails and inline double-click editing (`*bold*`, `_italic_`).
+- **Editing & Storage**: Drag-and-drop with smart snapping (hold `Ctrl` to disable), corner resize, rotation handle, flip, layer ordering, opacity, B&W mode, *My characters* presets, and isolated `stickstudio2.*` browser auto-save + `.json` file save/open.
+- **Export**: Image-based PDF (150/220/300 dpi + crop marks), vector PDF (browser print), PNG per page, `.zip` bundle, or one long vertical strip image.
 
 ## Shortcuts
 Del delete · Ctrl+D duplicate · Ctrl+C/V copy/paste · Alt+drag copy · arrows nudge (Shift ×10) · H/V flip · +/− bigger/smaller · P/F pick pose/face · [ ] layer · Esc deselect · Enter / double-click edit balloon text · Ctrl+Z/Y undo/redo · Ctrl+S save · Ctrl+O open · Ctrl+E export · Ctrl+P print · PgUp/PgDn page · F1 or ? help · Ctrl+wheel zoom
