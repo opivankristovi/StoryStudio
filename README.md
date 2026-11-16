@@ -1,6 +1,6 @@
 # StickStudio 2 – Modern Comic & Cartoon Maker
 
-**▶ Try it online: https://opivankristovi.github.io/StickStudio2/**
+**▶ Try it online: https://opivankristovi.github.io/StoryStudio/**
 
 A modernized fork of [StickStudio](https://github.com/opivankristovi/StickStudio) featuring a fluid, layered glassmorphic studio UI and a completely rebuilt library of detailed characters, objects, animals, and scenes — while keeping all 42 classic character poses.
 
