@@ -14,7 +14,7 @@ The source lives in `src/index.template.html`, `css/` and `js/`. After changing 
 
 (Optional: `powershell -ExecutionPolicy Bypass -File serve.ps1` serves it at http://localhost:8765.)
 
-## What's new in StickStudio 2
+## What's new in StoryStudio 2
 - **Modern Fluid Studio UI**: Layered dark surfaces with frosted glass (`backdrop-filter`), tactile 3D controls, floating inspector cards, springy library thumbnails, and a radial-lit dot-grid stage with deep paper shadows.
 - **24 Detailed Characters**: Volumetric limbs, layered outfits, boots, gloves, multi-layered hair, and expressive faces with pupils and catchlights — *Maya, Leo, Zoe, Sam, Executive, Professor, Cyberpunk, Space Ranger, Android, Secret Agent, Shinobi, Paladin, Archmage, Rogue, Valkyrie, Barista, Field Medic, Master Chef, Rockstar, Explorer, Detective, Monarch, Corsair,* and *Celestial*.
 - **Same 42 Poses**: Walk, run, panic, jump, cheer, wave, point, think, confused, shocked, shrug, angry, fight, punch, kick, sit, kneel, bow, fly, victory, flex, facepalm, dab, salute, clap, meditate, crouch, reach, star jump, sleep, and more — plus 17 facial expressions, 12 effects, and 26 held items.
